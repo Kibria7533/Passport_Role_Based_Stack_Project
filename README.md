@@ -1,9 +1,9 @@
 # Toolbox 
-Lets take a look on our models
+Lets take a look on our models .[Er diagram here](https://dbdiagram.io/d/60c8987c0c1ff875fcd4ef27)
 
 ```javascript
 user={
-id:String,
+    id:String,
     name:String,
     email:String,
     password:String,
@@ -16,7 +16,7 @@ id:String,
 ```
 ```javascript
 profile={
-id:String,
+    id:String,
     user_id:String,
     mobile:String,
     imgage:{id:String,img:String},
@@ -25,7 +25,7 @@ id:String,
 ```
 ```javascript
 product={
-id:String,
+   id:String,
    name:String,
    sku_number:String,
    price:Number,
@@ -49,8 +49,9 @@ category={
 
 ```javascript
 orders={
-  userid:{ type: Schema.Types.ObjectId, ref: 'User'},
-    orderid: type:String
+    
+    id: type:String,
+    userid:{ type: Schema.Types.ObjectId, ref: 'User'},
     paymentid:String,
     products:[{
     id:String,
