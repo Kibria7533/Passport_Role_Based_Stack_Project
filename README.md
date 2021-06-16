@@ -23,8 +23,8 @@ profile={
 ```
 ```javascript
 product={
-   name:String,sku_
-   number:String,
+   name:String,
+   sku_number:String,
    price:Number,
    cate_id:String,
    variant:String,
@@ -92,7 +92,7 @@ cart={
 
 As we intend to use Graphql for rest of our end point we will see these latter on this section.
 .
-
+## User&Profile
 | End Point | Data  |http rq type | Description    | Auth |
 | ------ | ------ |---------| ------------ | ------ |
 | /signup | {name,email,password,acc_type}  |POST-201 |{name,email,password,acc_type} is mandetory other profile can be skipped while initial signup |N/A |
@@ -104,10 +104,16 @@ As we intend to use Graphql for rest of our end point we will see these latter o
 | /forget-password-change/:token |{new-password,token} |POST-200|customer will provide his/her new password with issued token |any-user(having issued token) |
 | /google/fb/twitter-login |tap |POST-200|By requisting on this end point will return with some portion of login credentials(for first time and user have to provide rest datas) but on credentials existense it will redirected to where he left|any-user|
 
+## Products-End Points
+
+| End Point | Data  |http rq type | Description    | Auth |
+| ------ | ------ |---------| ------------ | ------ |
+|/product_creat/|
+|/product_get/|
+|product_update/:id|
 
 
 
-```
 
 
 
