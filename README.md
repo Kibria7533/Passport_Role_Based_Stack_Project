@@ -3,6 +3,7 @@ Lets take a look on our models
 
 ```javascript
 user={
+id:String,
     name:String,
     email:String,
     password:String,
@@ -15,6 +16,7 @@ user={
 ```
 ```javascript
 profile={
+id:String,
     user_id:String,
     mobile:String,
     imgage:{id:String,img:String},
@@ -23,25 +25,25 @@ profile={
 ```
 ```javascript
 product={
+id:String,
    name:String,
    sku_number:String,
    price:Number,
+   discount:
    cate_id:String,
    variant:String,
    stock:{enum:[out_of_stock,in_stock,running_low]},
    images:[{id:String,img:String}],
    description:String,
    brand:String ,
-   reviews&rating:[{id:String,rating:Number,review:String}]
+   reviews:[{id:String,user_id:String,rating:Number,review:String,createdAt:String}]
     }
 ```
 
 ```javascript
 category={
+  id:String,
    cate_name:String,
-   stock:{enum:[out_of_stock,in_stock,running_low]},
-   images:[{id:String,img:String}],
-   description:String
     }
 ```
 
@@ -50,7 +52,11 @@ orders={
   userid:{ type: Schema.Types.ObjectId, ref: 'User'},
     orderid: type:String
     paymentid:String,
-    products:type: Array,
+    products:[{
+    id:String,
+    qty:String,
+    product_id:String
+    }],
     address:String,
     total:type:String,
     orderstatus:String,
@@ -97,11 +103,11 @@ As we intend to use Graphql for rest of our end point we will see these latter o
 | ------ | ------ |---------| ------------ | ------ |
 | /signup | {name,email,password,acc_type}  |POST-201 |{name,email,password,acc_type} is mandetory other profile can be skipped while initial signup |N/A |
 | /signin |{email,password}  |POST-201 |All user have the same signin route | N/A|
-| /signout |{user_id}  |POST-200 |as usual sigout process will remove token from user cookie and redirected to home page |N/A|
+| /signout |{}  |POST-200 |as usual sigout process will remove token from user cookie and redirected to home page |Auth|
 | /profile/:id | {user-info} |GET|will return whole user profile and with corespond history| |authenticate(any) |
 | /profile-update/:id |{update-user-info} | POST-201 |we will use same end point but can update piece of data clicking a save button on saveral section|authenticate(any) |
-| /forget-password/:email |{user.email} |POST-200|customer will provide his/her email to have a passwors change mail with a issued token |any-user |
-| /forget-password-change/:token |{new-password,token} |POST-200|customer will provide his/her new password with issued token |any-user(having issued token) |
+| /forget-password/ |{user.email} |POST-200|customer will provide his/her email to have a passwors change mail with a issued token |any-user |
+| /forget-password-change |{new-password,token} |POST-200|customer will provide his/her new password with issued token |any-user(having issued token) |
 | /google/fb/twitter-login |tap |POST-200|By requisting on this end point will return with some portion of login credentials(for first time and user have to provide rest datas) but on credentials existense it will redirected to where he left|any-user|
 
 ## Products-End Points(This end points will be implemented as gql query)
@@ -118,6 +124,7 @@ As we intend to use Graphql for rest of our end point we will see these latter o
 
 | End Point | Data  |http rq type | Description    | Auth |
 | ------ | ------ |---------| ------------ | ------ |
+
 
 
 ## History-End Points
