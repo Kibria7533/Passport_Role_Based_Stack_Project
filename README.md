@@ -1,5 +1,5 @@
 # Toolbox 
-Lets take a look on our models -[ER](https://dbdiagram.io/d/60c8987c0c1ff875fcd4ef27)
+Lets take a look on our models
 
 ```javascript
 user={
@@ -104,20 +104,26 @@ As we intend to use Graphql for rest of our end point we will see these latter o
 | /forget-password-change/:token |{new-password,token} |POST-200|customer will provide his/her new password with issued token |any-user(having issued token) |
 | /google/fb/twitter-login |tap |POST-200|By requisting on this end point will return with some portion of login credentials(for first time and user have to provide rest datas) but on credentials existense it will redirected to where he left|any-user|
 
-## Products-End Points
+## Products-End Points(This end points will be implemented as gql query)
 
 | End Point | Data  |http rq type | Description    | Auth |
 | ------ | ------ |---------| ------------ | ------ |
 |/product_creat/|
 |/product_get/|
 |product_update/:id|
+|product_by_variant/:model|
 
 
+## Order-End Points
+
+| End Point | Data  |http rq type | Description    | Auth |
+| ------ | ------ |---------| ------------ | ------ |
 
 
+## History-End Points
 
-
-
+| End Point | Data  |http rq type | Description    | Auth |
+| ------ | ------ |---------| ------------ | ------ |
 
 
 
