@@ -1,6 +1,7 @@
 # Toolbox 
 
 ```javascript
+```javascript
 const User = {
 	id: 'userId',
 	accountStatus: ['pending', 'approved', 'suspended', 'rejected'],
@@ -129,6 +130,52 @@ const order={
     coupon:true;
     discount:10;
     shiiping_cost: 128 || false,
+    delivary&payment:[{
+        key:"oncash",
+        time :Date,
+        provider:{
+            name:String,
+            mobile:String,
+            client-relation-String
+        }
+    },
+    {
+        key:"paid",
+        timestap:true,
+        paymentType:[{
+            key:"card",
+            "toekn":String,
+            amount:Number,
+            userInfo:{}
+       
+            
+        },{
+             key;"paypal",
+             token:String,
+             amount:Number,
+             userInfo:{}
+             
+        }
+        
+        ]
+    }
+    
+    
+    ]
+    payment_status_meta_data:[
+       	{
+			key: 'pending',
+			date:Date,
+		},
+		{
+			key: 'accepted',
+			date:Date,,
+		},
+		{
+			key: 'on the way',
+			date:Date,
+		},
+    ]
     shipping_taxes:Number,
     	meta: [
 		{
@@ -157,9 +204,20 @@ const order={
 	    userID:"String",
 	    cmments:String
 	},
+	refund:true
+	refunditem:[{
+	    id:String,
+	    productId:String,
+	    qty:Number,
+	    price:Number
+	}],
+	netAmount:Number
     timeStamp:true
     
 }
+
+
+```
 
 
 ```
