@@ -1,9 +1,12 @@
 const cors = require("cors");
 const exp = require("express");
-const bp = require("body-parser");
+const bodyParser = require('body-parser')
 const passport = require("passport");
-const { connect } = require("mongoose");
-const { success, error } = require("consola");
+var mongoose = require('mongoose');
+const jwt = require('express-jwt')
+const schema = require('./gql/schema')
+const { graphqlHTTP } = require('express-graphql');
+
 
 // Bring in the app constants
 const { DB, PORT } = require("./config");
@@ -13,39 +16,37 @@ const app = exp();
 
 // Middlewares
 app.use(cors());
-app.use(bp.json());
 app.use(passport.initialize());
 
 require("./middlewares/passport")(passport);
 
+mongoose.connect('mongodb://localhost:27017/test' ,{useNewUrlParser:true,useUnifiedTopology:true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("database connected");
+});
+
 // User Router Middleware
-app.use("/api/users", require("./routes/users"));
+app.use("/auth/users", require("./routes/users"));
+const auth = jwt({ secret:  process.env.JWT_SECRET, algorithms: ['RS256'] ,credentialsRequired: false});
 
-const startApp = async () => {
-  try {
-    // Connection With DB
-    await connect(DB, {
-      useFindAndModify: true,
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    });
+app.use(
+  '/api',
+  bodyParser.json(),
+  auth,
+  graphqlHTTP(req => ({
+    schema,
+    context: {
+      user: req.user,
+      email: req.email,
+      role: req.role
+    },
+    graphiql: true,
+  }))
+)
 
-    success({
-      message: `Successfully connected with the Database \n${DB}`,
-      badge: true
-    });
 
-    // Start Listenting for the server on PORT
-    app.listen(PORT, () =>
-      success({ message: `Server started on PORT ${PORT}`, badge: true })
-    );
-  } catch (err) {
-    error({
-      message: `Unable to connect with Database \n${err}`,
-      badge: true
-    });
-    startApp();
-  }
-};
-
-startApp();
+app.listen(PORT, () => {
+  console.log(`The server is running on http://localhost:${PORT}/api`)
+})
