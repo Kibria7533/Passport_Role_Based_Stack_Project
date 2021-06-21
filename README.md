@@ -2,77 +2,218 @@
 Lets take a look on our models .[Er diagram here](https://dbdiagram.io/d/60c8987c0c1ff875fcd4ef27)
 
 ```javascript
-user={
-    id:String,
-    name:String,
-    email:String,
-    password:String,
-    role:{enum:[gen_customer,whole_seller,bike_share,admin]},
-    active_Token:String,
-    history:[{
-        i dont know what to do here-kibria
-    }]
-}
-```
-```javascript
-profile={
-    id:String,
-    user_id:String,
-    mobile:String,
-    imgage:{id:String,img:String},
-    address:[{state:String,dist:String,thana/city:String,Street/H.n:String}]
-    }
-```
-```javascript
-product={
-   id:String,
-   name:String,
-   sku_number:String,
-   price:Number,
-   discount:
-   cate_id:String,
-   variant:String,
-   stock:{enum:[out_of_stock,in_stock,running_low]},
-   images:[{id:String,img:String}],
-   description:String,
-   brand:String ,
-   reviews:[{id:String,user_id:String,rating:Number,review:String,createdAt:String}]
-    }
-```
+const User = {
+	id: 'userId',
+	accountStatus: ['pending', 'approved', 'suspended', 'rejected'],
+	email: '',
+	profile: {
+		ref: 'profile',
+	},
+	roles: {
+		admin: 10,
+		editor: 8,
+		user: 1,
+		sales: 3,
+		support: 3,
+	},
+	authStrategy: {
+		local: {
+			type: 'local',
+			password: '',
+			passwordResetToken: '',
+			activationToken: '',
+			emailVerified: true,
+			phoneVerified: true,
+		},
+		facebook: {
+			id: '',
+			token: '',
+		},
+		google: {
+			id: '',
+			token: '',
+		},
+	},
+	timestamp: Date,
+};
+const Profile = {
+	userId: {
+		ref: 'user',
+	},
+	firstName: '',
+	lastName: '',
+	email: '',
+	username: '',
+	accountType: ['rider', 'wholesaler', 'standard'],
+	profilePicture: Image,
+	billingAddresses: [{ Address }],
+	shippingAddresses: [{ Address }],
+	wishlist: ['id1', 'id2'],
+	orderHistory: ['order-id1', 'order-id2'],
+	refundHistory: ['refund-id1', 'refund-id2'],
+	activities: ['activity-id1', 'activity-id2'],
+	totalSpent: 0,
+	discounts: {
+		type: 'percentage' || 'fixed',
+		amount: 5 || 500,
+	},
+	freeShipping: true,
+	timestamp: Date,
+};
+const Image = {
+	src: '',
+	alt: '',
+	name: '',
+	id: '',
+	timestamp: Date,
+};
+const Address = {
+	addressLine1: '',
+	addressLine2: '',
+	city: '',
+	region: '',
+	country: '',
+	postalCode: '',
+	countryCode: '',
+};
+const Activity = {
+	id: '',
+	type: 'click',
+	context: 'browsing',
+	meta: [
+		{
+			key: 'product',
+			value: 'product id',
+		},
+		{
+			key: 'place',
+			value: 'add-to-cart',
+		},
+		{
+			key: 'url',
+			value: '/?ref=fb&action=shop',
+		},
+	],
+	message: '',
+};
+/**
+ * Order
+ * - order object
+ * - order line item
+ * - discounts and coupons
+ * - taxes on cart
+ * - shipping costs
+ * - taxes on shipping
+ * - update activity
+ * - update total spent
+ * - recalculate discounts
+ * - update inventory
+ * - recalculate coupon quantity
+ */
+const Coupon = {
+	type: 'fixed' || 'percentage',
+	code: 'OFFER-101',
+	amount: 10,
+	minSpent: 2000,
+	maxSpent: 10000,
+	quantity: 25,
+	onCart: true, // apply on cart amount
+	categories: ['category-id1', 'category-id2'],
+	products: ['product1', 'product2', 'product3'],
+	expire: Date,
+};
 
-```javascript
-category={
-  id:String,
-   cate_name:String,
+const order={
+    user_id:"user-id",
+    region:String,
+    status:["pending","accepted","on the way","recived"],
+    coupon:true;
+    discount:10;
+    shiiping_cost: 128 || false,
+    delivary&payment:[{
+        key:"oncash",
+        time :Date,
+        provider:{
+            name:String,
+            mobile:String,
+            client-relation-String
+        }
+    },
+    {
+        key:"paid",
+        timestap:true,
+        paymentType:[{
+            key:"card",
+            "toekn":String,
+            amount:Number,
+            userInfo:{}
+       
+            
+        },{
+             key;"paypal",
+             token:String,
+             amount:Number,
+             userInfo:{}
+             
+        }
+        
+        ]
     }
-```
-
-```javascript
-orders={
     
-    id: type:String,
-    userid:{ type: Schema.Types.ObjectId, ref: 'User'},
-    paymentid:String,
-    products:[{
-    id:String,
-    qty:String,
-    product_id:String
-    }],
-    address:String,
-    total:type:String,
-    orderstatus:String,
-    paymentmethod:String,
-    }
-```
-------------- We will here define  structure of our cart  and wishlist ------------
-```javascript
-cart={
-    image:{id:String,img:String},
-    product_name:String,
-    model:String,
-    quantity:String,
-    unit_price:String,
-    total:Number
+    
+    ]
+    payment_status_meta_data:[
+       	{
+			key: 'pending',
+			date:Date,
+		},
+		{
+			key: 'accepted',
+			date:Date,,
+		},
+		{
+			key: 'on the way',
+			date:Date,
+		},
+    ]
+    shipping_taxes:Number,
+    	meta: [
+		{
+			key: 'pending',
+			date:Date,
+		},
+		{
+			key: 'accepted',
+			date:Date,,
+		},
+		{
+			key: 'on the way',
+			date:Date,
+		},
+		issuer:user_id,
+		products;[{
+		    id:String,
+		    productId:'productId',
+		    price:Number,
+		    qty:Number
+		}],
+	billingAddresses: [{ Address }],
+	shippingAddresses: [{ Address }],
+	on_compleate_coutomer_riview:{
+	    id:String,
+	    userID:"String",
+	    cmments:String
+	},
+	refund:true
+	refunditem:[{
+	    id:String,
+	    productId:String,
+	    qty:Number,
+	    price:Number
+	}],
+	netAmount:Number
+    timeStamp:true
+    
 }
 
 
