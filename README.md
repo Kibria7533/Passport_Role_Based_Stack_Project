@@ -115,22 +115,23 @@ As we intend to use Graphql for rest of our end point we will see these latter o
 
 | Name | type  |gql schema name| res |Description    | Scope|
 |--- |  ------ |---------| ------------ | ------ |------|
-|product creation|mutation|create_product(Product model)
-|get single product |query |product(ID) |
-|update a single product |mutation | update_product(ID,...data) |
-|get product by variant |query|product_by_variant(productId) |
-|get product by price range | query | get_pro_by_range(min:Int max:Int) |
-|get a users order | query | orders_by_id(ID)
-|create a order | mutation | create_order(order model) |
-|update a order | mutation | update_order(id ,updated data)
-|add a history | mutation | 
-| set coupon | mutation |
-| update coupon | mutation |
-| get coupon | query |
-|add to cart | mutation |
-| delete from cart | mutation |
-|add to wishlist | mutation |
-| delete from wishlist | mutation |
+|product creation|mutation| create_product(Product model) | product | To create a product to our store with categories and variant | admin
+|get single product | query |product(ID) | product | get a single product and its reviews | users
+|update a single product |mutation | update_product(ID,...data) | product | to update a single product we need id and updated data | admin 
+|get product by variant | query|product_by_variant(productId) | products | if we select a product and this end point will return coresponding variants | user
+|get product by price range | query | get_pro_by_range(min:Int max:Int) | products | To get products by its product range | users
+|get a users order | query | orders_by_id(ID) | order | This end points will return all orders |auth-user
+|create a order | mutation | create_order(order model) | order ||auth-user|
+|update a order | mutation | update_order(id ,updated data)| order | |admin|
+|add a history | mutation | addHistory(id,...data) | history | |auth-user|
+| set coupon | mutation | set_coupon(type ,...data) | coupon ||admin|
+| update coupon | mutation | update_coupon (type ,...data)| coupon | |admin |
+| get coupon | query | get_coupon() | coupon ||auth-user|
+|add to cart | mutation | add_to_cart(id:String) | cart |auth-user|
+| delete from cart | mutation | remove_from_cart(id:String) | {} ||auth-user|
+|add to wishlist | mutation | add_to_wishlist(id:String) | {} | |auth-user|
+| delete from wishlist | mutation | remove_from_wishlist (id:String) |  {} |delete from wish list and also from |auth-user|
+|  add review | mutation |  addReview(id:String, ..data ) | reviews | To add a reviews with coresponding comments |auth-user|
 
 
 
